@@ -1,0 +1,20 @@
+---
+  - hosts: depend-hosts
+    task:
+      - name: create the project directory
+        file:
+          path: /tmp/bundlezip
+      - name: copy the requirements.txt to target server
+        template: 
+          src: /src/requirements.txt
+          dest: /tmp/bundlezip/requirements.txt
+      - name: intialize the virtual env
+        command: virtualenv /tmp/bundlezip -p python3.6 creates="/tmp/bundlezip"
+      - name: installing the packages
+        pip:
+          requirements: /tmp/bundlezip/requirements.txt
+      - name: archive the directory
+        archive:
+          path: /tmp/bundlezip      
+
+
